@@ -13,10 +13,11 @@ export class AddTransactionController implements Controller {
       'currency',
       'description',
       'processed',
+      'recurring',
     ];
 
     for (const field of requiredFields) {
-      if (!fields[field]) {
+      if (!(field in fields)) {
         return badRequest(new MissingParamError(field));
       }
     }

@@ -153,4 +153,60 @@ describe('Add Transaction Controller - required fields not provided', () => {
     expect(httpResponse.statusCode).toBe(400);
     expect(httpResponse.body).toEqual(new MissingParamError('description'));
   });
+
+  test('Should return 400 and an Error if field [processed] is not provided', async () => {
+    const sut = new AddTransactionController();
+
+    const httpRequest = {
+      body: {
+        type: 'expense',
+        date: new Date(),
+        value: 2000,
+        currency: 'real',
+        description: 'salary',
+        // processed: false,
+        recurring: true,
+        recurring_periodicity: 'monthly',
+        repeat: false,
+        repeat_times: null,
+        repeat_periodicity: null,
+        category: 'salary',
+        tags: [],
+        ignore: false,
+      },
+    };
+
+    const httpResponse = sut.handle(httpRequest);
+
+    expect(httpResponse.statusCode).toBe(400);
+    expect(httpResponse.body).toEqual(new MissingParamError('processed'));
+  });
+
+  test('Should return 400 and an Error if field [recurring] is not provided', async () => {
+    const sut = new AddTransactionController();
+
+    const httpRequest = {
+      body: {
+        type: 'expense',
+        date: new Date(),
+        value: 2000,
+        currency: 'real',
+        description: 'salary',
+        processed: false,
+        // recurring: true,
+        recurring_periodicity: 'monthly',
+        repeat: false,
+        repeat_times: null,
+        repeat_periodicity: null,
+        category: 'salary',
+        tags: [],
+        ignore: false,
+      },
+    };
+
+    const httpResponse = sut.handle(httpRequest);
+
+    expect(httpResponse.statusCode).toBe(400);
+    expect(httpResponse.body).toEqual(new MissingParamError('recurring'));
+  });
 });
