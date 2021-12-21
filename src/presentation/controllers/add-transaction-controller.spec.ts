@@ -99,4 +99,31 @@ describe('Add Transaction Controller - required fields not provided', () => {
     expect(httpResponse.statusCode).toBe(400);
     expect(httpResponse.body).toEqual(new MissingParamError('value'));
   });
+
+  test('Should return 400 and an Error if field [currency] is not provided', async () => {
+    const sut = new AddTransactionController();
+
+    const httpRequest = {
+      body: {
+        type: 'expense',
+        date: new Date(),
+        value: 2000,
+        description: 'salary',
+        processed: false,
+        recurring: true,
+        recurring_periodicity: 'monthly',
+        repeat: false,
+        repeat_times: null,
+        repeat_periodicity: null,
+        category: 'salary',
+        tags: [],
+        ignore: false,
+      },
+    };
+
+    const httpResponse = sut.handle(httpRequest);
+
+    expect(httpResponse.statusCode).toBe(400);
+    expect(httpResponse.body).toEqual(new MissingParamError('currency'));
+  });
 });
